@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Cache - Admin Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Cache Management</h1>
+        
+        <div class="info">
+            <strong>Note:</strong> This tool clears all cached PDF and taxonomy data. Use this after deleting PDFs from the database to see changes immediately on the frontend.
+        </div>
+
+        <button onclick="clearCache()">Clear All Cache</button>
+        <button onclick="refreshFrontend()">Refresh Frontend</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function clearCache() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = '';
+            resultDiv.textContent = 'Clearing cache...';
+
+            try {
+                // Get token from localStorage (if user is logged in)
+                const token = localStorage.getItem('token');
+                
+                const response = await fetch('http://localhost:5000/api/pdfs/clear-cache', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token ? `Bearer ${token}` : ''
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.className = 'success';
+                    resultDiv.textContent = '✅ ' + data.message + ' - Now refresh your frontend!';
+                } else {
+                    resultDiv.className = 'error';
+                    resultDiv.textContent = '❌ Error: ' + (data.message || 'Failed to clear cache. Make sure you are logged in as admin.');
+                }
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.textContent = '❌ Error: ' + error.message + ' - Make sure the backend server is running.';
+            }
+        }
+
+        function refreshFrontend() {
+            window.open('http://localhost:3000', '_blank');
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'success';
+            resultDiv.textContent = '✅ Opening frontend in new tab. Press Ctrl+Shift+R to hard refresh!';
+        }
+    </script>
+</body>
+</html>
