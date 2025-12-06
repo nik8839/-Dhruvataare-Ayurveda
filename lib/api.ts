@@ -14,7 +14,7 @@ const apiCall = async (
   options: RequestInit = {}
 ): Promise<any> => {
   const token = getAuthToken();
-  const headers: HeadersInit = {
+  const headers: any = {
     'Content-Type': 'application/json',
     ...options.headers,
   };
@@ -97,10 +97,7 @@ export const pdfAPI = {
   },
   viewPDF: (id: string) => {
     const token = getAuthToken();
-    const headers: HeadersInit = {};
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+
     return `${API_URL}/pdfs/${id}/view${token ? `?token=${token}` : ''}`;
   },
   downloadPDF: async (id: string) => {
