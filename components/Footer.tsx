@@ -5,10 +5,10 @@ import { FiInstagram, FiYoutube, FiMessageCircle, FiBell } from 'react-icons/fi'
 
 export default function Footer() {
   const socialLinks = {
-    instagram: 'https://instagram.com/edutech',
-    youtube: 'https://youtube.com/@dhruvataareayurveda?si=TnjCzpB_-wZH-sMw',
+    instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://instagram.com/edutech',
+    youtube: process.env.NEXT_PUBLIC_YOUTUBE_URL || 'https://youtube.com/@dhruvataareayurveda?si=TnjCzpB_-wZH-sMw',
     whatsappChannel: 'https://whatsapp.com/channel/0029Vb2RtQ8EAKWN2TyXTO0q',
-    telegram: 'https://t.me/dhruvataare01',
+    telegram: process.env.NEXT_PUBLIC_TELEGRAM_LINK || 'https://t.me/dhruvataare01',
   }
 
   return (
