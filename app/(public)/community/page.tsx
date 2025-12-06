@@ -5,11 +5,13 @@ import { FiArrowLeft, FiInstagram, FiYoutube, FiMessageCircle } from 'react-icon
 
 export default function CommunityPage() {
   const socialLinks = {
-    instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://instagram.com/YOUR_HANDLE',
-    youtube: process.env.NEXT_PUBLIC_YOUTUBE_URL || 'https://youtube.com/@YOUR_CHANNEL',
-    whatsapp1stYear: process.env.NEXT_PUBLIC_WHATSAPP_1ST_YEAR || 'https://chat.whatsapp.com/YOUR_1ST_YEAR_LINK',
-    whatsapp2ndYear: process.env.NEXT_PUBLIC_WHATSAPP_2ND_YEAR || 'https://chat.whatsapp.com/YOUR_2ND_YEAR_LINK',
-    whatsappSenior: process.env.NEXT_PUBLIC_WHATSAPP_SENIOR || 'https://chat.whatsapp.com/YOUR_SENIOR_LINK',
+    youtube: 'https://youtube.com/@dhruvataareayurveda?si=TnjCzpB_-wZH-sMw',
+    telegram: 'https://t.me/dhruvataare01',
+    whatsappChannel: 'https://whatsapp.com/channel/0029Vb2RtQ8EAKWN2TyXTO0q',
+    whatsapp1stJunior: 'https://chat.whatsapp.com/LEnNEbolkVbKEtLxLHqD89?mode=wwt',
+    whatsapp1stSenior: 'https://chat.whatsapp.com/GDvD08rCgInI7nTljagvpy?mode=wwt',
+    whatsapp2ndJunior: 'https://chat.whatsapp.com/DqdLM1xoOjSH985v6AcVeR?mode=wwt',
+    whatsapp2ndSenior: 'https://chat.whatsapp.com/CdYIKFUDN5y6ZpE4tGF1YC?mode=wwt',
   }
 
   return (
@@ -31,22 +33,6 @@ export default function CommunityPage() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Instagram */}
-          <a
-            href={socialLinks.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white"
-          >
-            <div className="flex items-center space-x-4 mb-4">
-              <FiInstagram className="w-10 h-10" />
-              <h2 className="text-2xl font-bold">Instagram</h2>
-            </div>
-            <p className="text-pink-100">
-              Follow us for daily updates, tips, and study materials
-            </p>
-          </a>
-
           {/* YouTube */}
           <a
             href={socialLinks.youtube}
@@ -63,52 +49,105 @@ export default function CommunityPage() {
             </p>
           </a>
 
-          {/* WhatsApp 1st Year */}
+          {/* Telegram */}
           <a
-            href={socialLinks.whatsapp1stYear}
+            href={socialLinks.telegram}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white"
+            className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white"
           >
             <div className="flex items-center space-x-4 mb-4">
               <FiMessageCircle className="w-10 h-10" />
-              <h2 className="text-2xl font-bold">1st Year Group</h2>
+              <h2 className="text-2xl font-bold">Telegram</h2>
             </div>
-            <p className="text-green-100">
-              Join the WhatsApp group for 1st year students
+            <p className="text-blue-100">
+              Join our Telegram channel for updates and discussions
             </p>
           </a>
 
-          {/* WhatsApp 2nd Year */}
+          {/* WhatsApp Channel */}
           <a
-            href={socialLinks.whatsapp2ndYear}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white"
-          >
-            <div className="flex items-center space-x-4 mb-4">
-              <FiMessageCircle className="w-10 h-10" />
-              <h2 className="text-2xl font-bold">2nd Year Group</h2>
-            </div>
-            <p className="text-green-100">
-              Join the WhatsApp group for 2nd year students
-            </p>
-          </a>
-
-          {/* WhatsApp Senior */}
-          <a
-            href={socialLinks.whatsappSenior}
+            href={socialLinks.whatsappChannel}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white md:col-span-2"
           >
             <div className="flex items-center space-x-4 mb-4">
               <FiMessageCircle className="w-10 h-10" />
-              <h2 className="text-2xl font-bold">Senior Group</h2>
+              <h2 className="text-2xl font-bold">WhatsApp Channel</h2>
             </div>
             <p className="text-green-100">
-              Join the WhatsApp group for senior students (3rd year and above)
+              Follow our official WhatsApp channel for important announcements
             </p>
+          </a>
+
+          {/* WhatsApp Groups Section Title */}
+          <div className="md:col-span-2 mt-8 mb-4">
+            <h2 className="text-2xl font-bold text-gray-800 text-center">WhatsApp Student Groups</h2>
+          </div>
+
+          {/* WhatsApp 1st Proff Junior */}
+          <a
+            href={socialLinks.whatsapp1stJunior}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white border border-green-200 rounded-lg p-6 hover:shadow-lg hover:border-green-400 transition-all duration-300 group"
+          >
+            <div className="flex items-center space-x-3 mb-2">
+              <div className="bg-green-100 p-2 rounded-full group-hover:bg-green-200 transition-colors">
+                <FiMessageCircle className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-800">1st Proff Junior</h3>
+            </div>
+            <p className="text-sm text-gray-500">Batch 2025-2026</p>
+          </a>
+
+          {/* WhatsApp 1st Proff Senior */}
+          <a
+            href={socialLinks.whatsapp1stSenior}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white border border-green-200 rounded-lg p-6 hover:shadow-lg hover:border-green-400 transition-all duration-300 group"
+          >
+            <div className="flex items-center space-x-3 mb-2">
+              <div className="bg-green-100 p-2 rounded-full group-hover:bg-green-200 transition-colors">
+                <FiMessageCircle className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-800">1st Proff Senior</h3>
+            </div>
+            <p className="text-sm text-gray-500">Batch 2024-2025</p>
+          </a>
+
+          {/* WhatsApp 2nd Proff Junior */}
+          <a
+            href={socialLinks.whatsapp2ndJunior}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white border border-green-200 rounded-lg p-6 hover:shadow-lg hover:border-green-400 transition-all duration-300 group"
+          >
+            <div className="flex items-center space-x-3 mb-2">
+              <div className="bg-green-100 p-2 rounded-full group-hover:bg-green-200 transition-colors">
+                <FiMessageCircle className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-800">2nd Proff Junior</h3>
+            </div>
+            <p className="text-sm text-gray-500">Batch 2023-2024</p>
+          </a>
+
+          {/* WhatsApp 2nd Proff Senior */}
+          <a
+            href={socialLinks.whatsapp2ndSenior}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white border border-green-200 rounded-lg p-6 hover:shadow-lg hover:border-green-400 transition-all duration-300 group"
+          >
+            <div className="flex items-center space-x-3 mb-2">
+              <div className="bg-green-100 p-2 rounded-full group-hover:bg-green-200 transition-colors">
+                <FiMessageCircle className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-800">2nd Proff Senior</h3>
+            </div>
+            <p className="text-sm text-gray-500">Batch 2022-2023</p>
           </a>
         </div>
       </div>

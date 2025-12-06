@@ -328,91 +328,67 @@ cd server
 npm start
 ```
 
-## Usage Guide
+## How It Works
 
-### For Regular Users
+### 🎓 User Experience
 
-1. **Browse Content**:
+The application is designed to be intuitive for students, providing quick access to study materials.
 
-   - View exclusive content icons (scrollable)
-   - Browse syllabus notes
-   - Access PYQ (Previous Year Questions) by year and subject
-   - View study notes organized by year and subject
+#### 1. **Home Page & Navigation**
+- **Central Hub**: The Home Page features three main cards: **Syllabus**, **PYQs**, and **Notes**.
+- **Interactive Dialogs**: Clicking on these cards opens an interactive dialog box (popup) that guides you through the selection process without leaving the page.
+- **Community Access**: The footer and dedicated "Community" page provide links to WhatsApp groups, Telegram channels, and YouTube.
 
-2. **Create Account**:
+#### 2. **Syllabus Section**
+- **Hierarchy**: Organized as `Year -> Subject -> PDF`.
+- **Flow**:
+    1.  Click "Syllabus".
+    2.  Select your **Academic Year** (e.g., 1st Year).
+    3.  Select your **Subject** from the list.
+    4.  The Syllabus PDF opens directly in a built-in viewer.
 
-   - Click "Log In" in the header
-   - Switch to "Sign Up" tab
-   - Enter name, email, and password
-   - Click "Sign Up"
+#### 3. **Previous Year Questions (PYQs)**
+- **Hierarchy**: Organized as `Year -> Subject -> Academic Year (of paper) -> Paper`.
+- **Flow**:
+    1.  Click "PYQs".
+    2.  Select **Year** (e.g., 1st Year).
+    3.  Select **Subject**.
+    4.  Select the **Year of the Paper** (e.g., 2023).
+    5.  Select the specific **Paper** (e.g., Paper 1).
+    6.  View the PDF instantly.
 
-3. **Login**:
+#### 4. **Study Notes**
+- **Hierarchy**: Organized as `Year -> Subject -> Unit/Topic`.
+- **Flow**: Similar to Syllabus, allowing students to drill down to specific topics.
 
-   - Click "Log In" in the header
-   - Enter email and password
-   - Click "Log In"
+#### 5. **Exclusive & Premium Content**
+- **Achievers Series**: Special content for top performers.
+- **Premium PDFs**: Some content may be locked. Users can purchase these using the integrated **Razorpay** gateway. Once purchased, the download link becomes active.
 
-4. **View PDFs**:
+### 🛡️ Admin Experience
 
-   - Click on any PDF link
-   - PDFs open in the browser viewer
-   - Free PDFs can be viewed without login
+Admins have full control over the platform's content via a secured dashboard.
 
-5. **Download PDFs**:
+#### 1. **Accessing the Dashboard**
+- Log in with admin credentials.
+- Click "Admin Dashboard" in the profile menu.
 
-   - Login required for downloads
-   - Premium PDFs require purchase
-   - Click "Download PDF" button
+#### 2. **Uploading Content**
+- **Unified Upload Form**: A single form handles all content types.
+- **Steps**:
+    1.  **Title**: Enter a descriptive title.
+    2.  **Category**: Choose Syllabus, PYQ, Notes, or Exclusive.
+    3.  **Hierarchy Details**: Depending on the category, dynamic fields appear (Year, Subject, Paper, etc.).
+    4.  **File**: Upload the PDF.
+    5.  **Premium Status**: Mark as "Premium" and set a price if applicable.
+- **Automatic Organization**: The system automatically categorizes the file and makes it available in the correct section on the frontend.
 
-6. **Purchase Premium Content**:
-
-   - Click on premium exclusive content
-   - Click "Download PDF"
-   - Complete payment via Razorpay
-   - After successful payment, download is enabled
-
-7. **Join Community**:
-   - Scroll to footer
-   - Click on social media links (Instagram, YouTube, WhatsApp)
-   - Or click "View All Communities" for full community page
-
-### For Admin Users
-
-1. **Login as Admin**:
-
-   - Use admin credentials created in Step 7
-   - Login at `/login`
-
-2. **Access Admin Dashboard**:
-
-   - After login, you'll see "Admin Dashboard" in the header
-   - Click to access `/admin`
-
-3. **View Analytics**:
-
-   - Dashboard tab shows:
-     - Total page views
-     - PDF views and downloads
-     - User statistics
-     - Most viewed/downloaded PDFs
-     - Daily statistics charts
-
-4. **Upload Content**:
-
-   - Go to "Upload Content" tab in admin dashboard
-   - Fill in the form:
-     - Title (required)
-     - Description (optional)
-     - Category: Exclusive, Syllabus, PYQ, or Notes
-     - Check "Premium Content" if it requires payment
-     - Set price if premium
-     - Upload PDF file
-   - Click "Upload PDF"
-   - Content will appear in frontend automatically
-
-5. **Manage Content**:
-   - Currently, content management is via database
-   - Future updates will include admin UI for editing/deleting
+#### 3. **Analytics**
+- View real-time stats on:
+    - Total Users
+    - PDF Views & Downloads
+    - Revenue
+    - Popular Content
 
 ## API Endpoints
 

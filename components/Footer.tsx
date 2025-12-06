@@ -6,10 +6,9 @@ import { FiInstagram, FiYoutube, FiMessageCircle, FiBell } from 'react-icons/fi'
 export default function Footer() {
   const socialLinks = {
     instagram: 'https://instagram.com/edutech',
-    youtube: 'https://youtube.com/@edutech',
-    whatsapp1stYear: 'https://chat.whatsapp.com/1styear',
-    whatsapp2ndYear: 'https://chat.whatsapp.com/2ndyear',
-    whatsappSenior: 'https://chat.whatsapp.com/senior',
+    youtube: 'https://youtube.com/@dhruvataareayurveda?si=TnjCzpB_-wZH-sMw',
+    whatsappChannel: 'https://whatsapp.com/channel/0029Vb2RtQ8EAKWN2TyXTO0q',
+    telegram: 'https://t.me/dhruvataare01',
   }
 
   return (
@@ -25,11 +24,12 @@ export default function Footer() {
           {/* Brand Section */}
           <div>
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-xl">
-                ET
+              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-xl overflow-hidden relative">
+                {/* Assuming logo is available, otherwise this might be empty or fallback */}
+                <img src="/logo.png" alt="DA" className="w-full h-full object-contain p-2" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-white">EduTech</h2>
+                <h2 className="text-2xl font-bold text-white">Dhruvataare Ayurveda</h2>
                 <p className="text-base text-gray-400">Medical Education</p>
               </div>
             </div>
@@ -104,31 +104,22 @@ export default function Footer() {
                 <span>YouTube</span>
               </a>
               <a
-                href={socialLinks.whatsapp1stYear}
+                href={socialLinks.whatsappChannel}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 text-gray-300 hover:text-green-400 transition-colors text-base group"
               >
                 <FiMessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span>1st Year WhatsApp Group</span>
+                <span>WhatsApp Channel</span>
               </a>
               <a
-                href={socialLinks.whatsapp2ndYear}
+                href={socialLinks.telegram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-3 text-gray-300 hover:text-green-400 transition-colors text-base group"
+                className="flex items-center space-x-3 text-gray-300 hover:text-blue-400 transition-colors text-base group"
               >
                 <FiMessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span>2nd Year WhatsApp Group</span>
-              </a>
-              <a
-                href={socialLinks.whatsappSenior}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-3 text-gray-300 hover:text-green-400 transition-colors text-base group"
-              >
-                <FiMessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span>Senior WhatsApp Group</span>
+                <span>Telegram</span>
               </a>
             </div>
             <div className="mt-8">

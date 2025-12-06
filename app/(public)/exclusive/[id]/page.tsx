@@ -215,12 +215,24 @@ export default function ExclusivePage() {
             </div>
           )}
 
-          <div className="bg-gray-100 rounded-lg p-8 mb-6 min-h-[600px] flex items-center justify-center">
-            <iframe
-              src={`${pdfAPI.viewPDF(pdf._id)}${pdf.isPremium && !hasPurchased ? '#toolbar=0' : ''}`}
-              className="w-full h-full min-h-[600px] border-0"
-              title={pdf.title}
-            />
+          <div className="bg-gray-100 rounded-lg p-8 mb-6 min-h-[400px] flex items-center justify-center">
+            {pdf.isPremium ? (
+              <div className="text-center">
+                <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <FiLock className="w-10 h-10 text-yellow-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Exclusive Content</h3>
+                <p className="text-gray-600 max-w-md mx-auto">
+                  This content is exclusive. Please purchase and download to view the full PDF.
+                </p>
+              </div>
+            ) : (
+              <iframe
+                src={`${pdfAPI.viewPDF(pdf._id)}`}
+                className="w-full h-full min-h-[600px] border-0"
+                title={pdf.title}
+              />
+            )}
           </div>
 
           <div className="bg-blue-50 rounded-lg p-4 mb-6">

@@ -11,6 +11,17 @@ const connectRedis = async () => {
       // Use URL-based connection (Upstash)
       redisClient = redis.createClient({
         url: redisUrl,
+        socket: {
+          tls: redisUrl.startsWith('rediss://'),
+          rejectUnauthorized: false, // Fix for some self-signed certs or strict environments
+          connectTimeout: 10000, // 10 seconds
+          keepAlive: 5000, // Keep connection alive
+          reconnectStrategy: (retries) => {
+            if (retries > 10) return new Error("Too many retries");
+            return Math.min(retries * 50, 2000);
+          }
+        },
+        pingInterval: 1000 * 60 * 4, // Ping every 4 minutes (Upstash idle timeout is 5 mins)
       });
     } else {
       // Use traditional host/port config

@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { FiArrowLeft, FiPhone, FiLock, FiUser, FiMail } from 'react-icons/fi'
 import { authAPI } from '@/lib/api'
+import { useToast } from '@/contexts/ToastContext'
 
 export default function LoginPage() {
   const router = useRouter()
+  const { showSuccess, showError } = useToast()
   const [isSignUp, setIsSignUp] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
   const [otpVerified, setOtpVerified] = useState(false)
@@ -30,15 +32,15 @@ export default function LoginPage() {
           // Step 1: Send OTP
           await authAPI.sendOTP(formData.phone)
           setOtpSent(true)
-          alert('OTP sent to your phone number')
+          showSuccess('OTP sent to your phone number')
         } else if (!otpVerified) {
           // Step 2: Verify OTP
           const verifyResponse = await authAPI.verifyOTP(formData.phone, formData.otp)
           if (verifyResponse.success) {
             setOtpVerified(true)
-            alert('OTP verified successfully!')
+            showSuccess('OTP verified successfully!')
           } else {
-            alert('Invalid OTP. Please try again.')
+            showError('Invalid OTP. Please try again.')
           }
         } else {
           // Step 3: Complete registration
@@ -51,7 +53,7 @@ export default function LoginPage() {
           if (response.success) {
             localStorage.setItem('token', response.token)
             localStorage.setItem('user', JSON.stringify(response.user))
-            alert('Account created successfully!')
+            showSuccess('Account created successfully!')
             router.push('/')
           }
         }
@@ -61,8 +63,8 @@ export default function LoginPage() {
         if (response.success) {
           localStorage.setItem('token', response.token)
           localStorage.setItem('user', JSON.stringify(response.user))
-          alert('Logged in successfully!')
-          
+          showSuccess('Logged in successfully!')
+
           // Redirect admins to admin dashboard
           if (response.user.role === 'admin') {
             router.push('/admin')
@@ -72,7 +74,7 @@ export default function LoginPage() {
         }
       }
     } catch (error: any) {
-      alert(error.message || 'Authentication failed')
+      showError(error.message || 'Authentication failed')
     } finally {
       setLoading(false)
     }
@@ -88,9 +90,9 @@ export default function LoginPage() {
   const handleResendOTP = async () => {
     try {
       await authAPI.sendOTP(formData.phone)
-      alert('OTP resent to your phone number')
+      showSuccess('OTP resent to your phone number')
     } catch (error: any) {
-      alert(error.message || 'Failed to resend OTP')
+      showError(error.message || 'Failed to resend OTP')
     }
   }
 

@@ -24,6 +24,7 @@ import {
   Area
 } from 'recharts'
 import { analyticsAPI, pdfAPI } from '@/lib/api'
+import { useToast } from '@/contexts/ToastContext'
 
 interface DashboardStats {
   overview: {
@@ -58,6 +59,7 @@ interface DashboardStats {
 
 export default function AdminDashboard() {
   const router = useRouter()
+  const { showSuccess, showError } = useToast()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'dashboard' | 'upload' | 'manage'>('dashboard')
@@ -133,7 +135,7 @@ export default function AdminDashboard() {
       }
 
       await pdfAPI.createPDF(formData)
-      alert('PDF uploaded successfully!')
+      showSuccess('PDF uploaded successfully!')
       setUploadForm({
         title: '',
         description: '',
@@ -149,7 +151,7 @@ export default function AdminDashboard() {
       })
       loadDashboard()
     } catch (error: any) {
-      alert(error.message || 'Upload failed')
+      showError(error.message || 'Upload failed')
     }
   }
 
@@ -469,7 +471,7 @@ export default function AdminDashboard() {
 
               {(uploadForm.category === 'syllabus' || uploadForm.category === 'notes' || uploadForm.category === 'pyq') && (
                 <>
-                  {(uploadForm.category === 'notes' || uploadForm.category === 'pyq') && (
+                  {(uploadForm.category === 'notes' || uploadForm.category === 'pyq' || uploadForm.category === 'syllabus') && (
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Year *
@@ -613,6 +615,7 @@ export default function AdminDashboard() {
 }
 
 function ManageContentTab({ onContentDeleted }: { onContentDeleted: () => void }) {
+  const { showSuccess, showError } = useToast()
   const [pdfs, setPdfs] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState({ category: '', year: '', subject: '' })
@@ -649,15 +652,15 @@ function ManageContentTab({ onContentDeleted }: { onContentDeleted: () => void }
       })
 
       if (response.ok) {
-        alert('Content deleted successfully!')
+        showSuccess('Content deleted successfully!')
         loadPDFs()
         onContentDeleted()
       } else {
-        alert('Failed to delete content')
+        showError('Failed to delete content')
       }
     } catch (error) {
       console.error('Error deleting PDF:', error)
-      alert('Error deleting content')
+      showError('Error deleting content')
     }
   }
 

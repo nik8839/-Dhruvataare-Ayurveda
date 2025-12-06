@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { FiMenu, FiX } from 'react-icons/fi'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import PYQDialog from './PYQDialog'
 import NotesDialog from './NotesDialog'
 
@@ -53,16 +54,24 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 glass shadow-medical z-50 border-b border-blue-100">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+
         <div className="flex items-center space-x-3 group cursor-pointer">
-          <div className="w-14 h-14 medical-gradient-blue rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-medical transform group-hover:scale-110 transition-all duration-300 group-hover:rotate-3">
-            <span className="relative">
-              ET
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-            </span>
+          <div className="relative w-20 h-20 rounded-xl overflow-hidden shadow-medical transform group-hover:scale-110 transition-all duration-300 group-hover:rotate-3 bg-white">
+            <Image 
+              src="/logo.png" 
+              alt="Dhruvataare Ayurveda" 
+              fill 
+              className="object-contain p-1"
+              onError={(e) => {
+                // Fallback if image fails (optional, but good for dev)
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+            {/* Fallback Text if image not loaded (handled via CSS/JS usually, but here we just put the image) */}
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-teal-600 to-purple-600 bg-clip-text text-transparent">
-              EduTech
+            <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 via-teal-600 to-purple-600 bg-clip-text text-transparent">
+              Dhruvataare Ayurveda
             </h1>
             <p className="text-xs text-gray-500 font-medium">Medical Education Platform</p>
           </div>

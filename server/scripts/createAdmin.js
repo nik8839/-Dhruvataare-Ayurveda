@@ -21,9 +21,22 @@ const createAdmin = async () => {
     const adminEmail = process.env.ADMIN_EMAIL || "admin@edutech.com";
 
     // Check if admin exists
-    const existingAdmin = await User.findOne({ phone: adminPhone });
-    if (existingAdmin) {
-      console.log("\n✅ Admin user already exists!");
+    let adminUser = await User.findOne({ phone: adminPhone });
+    
+    // Also check by email to be sure (in case phone changed in env)
+    if (!adminUser) {
+      adminUser = await User.findOne({ email: adminEmail });
+    }
+
+    if (adminUser) {
+      console.log("\n🔄 Admin user found, updating credentials...");
+      adminUser.phone = adminPhone;
+      adminUser.password = adminPassword;
+      adminUser.email = adminEmail;
+      adminUser.role = "admin"; // Ensure role is admin
+      await adminUser.save();
+      
+      console.log("✅ Admin credentials updated successfully!");
       console.log(`📱 Phone: ${adminPhone}`);
       console.log(`🔐 Password: ${adminPassword}`);
       console.log(`\nLogin at: http://localhost:3000/admin/login\n`);

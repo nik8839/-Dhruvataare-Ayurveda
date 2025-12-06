@@ -30,15 +30,24 @@ const getPDFs = async (req, res, next) => {
     const query = { isActive: true };
 
     if (category) query.category = category;
-    if (year) query.year = year;
+    if (year) {
+      if (year === 'General') {
+        query.year = null;
+      } else {
+        query.year = year;
+      }
+    }
     if (subject) query.subject = new RegExp(subject, "i");
     if (yearValue) query.yearValue = yearValue;
     if (paper) query.paper = paper;
 
     const pdfs = await PDF.find(query).sort({ createdAt: -1 });
 
-    // Cache for 1 hour
+    // Cache for 1 hour (Redis)
     await cacheSet(cacheKey, pdfs, 3600);
+
+    // Prevent browser caching
+    res.setHeader('Cache-Control', 'no-store');
 
     res.status(200).json({
       success: true,
@@ -83,26 +92,21 @@ const getTaxonomy = async (req, res, next) => {
     const taxonomy = {};
 
     pdfs.forEach(pdf => {
-      // For categories with year hierarchy (notes, pyq)
-      if (pdf.year) {
-        if (!taxonomy[pdf.year]) {
-          taxonomy[pdf.year] = {
-            subjects: new Set(),
-            years: new Set(),
-            papers: new Set()
-          };
-        }
-        
-        if (pdf.subject) taxonomy[pdf.year].subjects.add(pdf.subject);
-        if (pdf.yearValue) taxonomy[pdf.year].years.add(pdf.yearValue);
-        if (pdf.paper) taxonomy[pdf.year].papers.add(pdf.paper);
-      } else {
-        // For categories without year hierarchy (syllabus, exclusive)
-        if (!taxonomy.subjects) {
-          taxonomy.subjects = new Set();
-        }
-        if (pdf.subject) taxonomy.subjects.add(pdf.subject);
+      // Use year or default to 'General' for hierarchy
+      // This ensures even if year is missing, it shows up in the UI
+      const yearKey = pdf.year || 'General';
+
+      if (!taxonomy[yearKey]) {
+        taxonomy[yearKey] = {
+          subjects: new Set(),
+          years: new Set(),
+          papers: new Set()
+        };
       }
+      
+      if (pdf.subject) taxonomy[yearKey].subjects.add(pdf.subject);
+      if (pdf.yearValue) taxonomy[yearKey].years.add(pdf.yearValue);
+      if (pdf.paper) taxonomy[yearKey].papers.add(pdf.paper);
     });
 
     // Convert Sets to sorted Arrays
@@ -116,8 +120,11 @@ const getTaxonomy = async (req, res, next) => {
       }
     });
 
-    // Cache for 1 hour
+    // Cache for 1 hour (Redis)
     await cacheSet(cacheKey, taxonomy, 3600);
+
+    // Prevent browser caching
+    res.setHeader('Cache-Control', 'no-store');
 
     res.status(200).json({
       success: true,
@@ -182,6 +189,14 @@ const viewPDF = async (req, res, next) => {
       return res.status(404).json({
         success: false,
         message: "PDF not found",
+      });
+    }
+
+    // Block view access for premium content
+    if (pdf.isPremium) {
+      return res.status(403).json({
+        success: false,
+        message: "Preview not available for exclusive content. Please purchase and download.",
       });
     }
 
