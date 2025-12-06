@@ -100,7 +100,7 @@ export default function PYQSubjectPage() {
                   Year {yearValue}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {groupedPDFs[yearValue].map((pdf) => (
+                  {groupedPDFs[yearValue].map((pdf: any) => (
                     <div
                       key={pdf._id}
                       onClick={() => handleViewPDF(pdf._id)}
