@@ -201,11 +201,19 @@ const viewPDF = async (req, res, next) => {
     }
 
     const filePath = path.join(__dirname, "..", pdf.filePath);
+    console.log(`[ViewPDF] Attempting to view PDF: ${pdf._id}`);
+    console.log(`[ViewPDF] DB File Path: ${pdf.filePath}`);
+    console.log(`[ViewPDF] Resolved Absolute Path: ${filePath}`);
 
     if (!fs.existsSync(filePath)) {
+      console.error(`[ViewPDF] File NOT found on disk at: ${filePath}`);
       return res.status(404).json({
         success: false,
-        message: "PDF file not found",
+        message: "PDF file not found on server disk (Ephemeral storage issue?)",
+        debug: {
+          path: pdf.filePath,
+          resolved: filePath
+        }
       });
     }
 
