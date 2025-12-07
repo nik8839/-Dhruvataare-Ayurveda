@@ -25,7 +25,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
+const uploadMiddleware = multer({
   storage: storage,
   limits: {
     fileSize: parseInt(process.env.MAX_FILE_SIZE) || 10 * 1024 * 1024, // 10MB default
@@ -33,5 +33,17 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-module.exports = upload;
+// Wrap multer to handle errors gracefully
+const upload = (req, res, next) => {
+  uploadMiddleware.single('pdf')(req, res, (err) => {
+    if (err) {
+      console.error('Multer/Cloudinary Upload Error:', err);
+      // Pass error to Express error handler
+      return next(err);
+    }
+    next();
+  });
+};
+
+module.exports = { single: () => upload }; // Mocking the .single() interface for compatibility
 
