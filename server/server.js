@@ -49,7 +49,12 @@ const corsOptions = {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+    // Check if origin is allowed or if it's a Vercel preview deployment
+    const isAllowed = allowedOrigins.indexOf(origin) !== -1 || 
+                      origin.endsWith('.vercel.app') ||
+                      process.env.NODE_ENV === 'development';
+
+    if (isAllowed) {
       callback(null, true);
     } else {
       console.log('Blocked by CORS:', origin);

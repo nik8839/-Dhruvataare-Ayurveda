@@ -201,10 +201,19 @@ const viewPDF = async (req, res, next) => {
       });
     }
 
-    // Redirect to Cloudinary URL
-    // Cloudinary URLs are public and can be viewed directly
-    console.log(`[ViewPDF] Redirecting to Cloudinary: ${pdf.filePath}`);
-    return res.redirect(pdf.filePath);
+    // Check if it's a Cloudinary URL (starts with http)
+    if (pdf.filePath.startsWith('http')) {
+      console.log(`[ViewPDF] Redirecting to Cloudinary: ${pdf.filePath}`);
+      return res.redirect(pdf.filePath);
+    }
+
+    // Legacy local file - likely deleted
+    console.log(`[ViewPDF] Legacy local file detected: ${pdf.filePath}`);
+    return res.status(404).json({
+      success: false,
+      message: "This PDF is from an older version and is no longer available. Please delete and re-upload.",
+      isLegacy: true
+    });
   } catch (error) {
     next(error);
   }
@@ -268,11 +277,19 @@ const downloadPDF = async (req, res, next) => {
       }
     });
 
-    // Redirect to Cloudinary URL
-    // For download, we can append fl_attachment to Cloudinary URL if needed, 
-    // but simple redirect usually works for browsers to handle "Save As" if it's a PDF
-    console.log(`[DownloadPDF] Redirecting to Cloudinary: ${pdf.filePath}`);
-    return res.redirect(pdf.filePath);
+    // Check if it's a Cloudinary URL (starts with http)
+    if (pdf.filePath.startsWith('http')) {
+      console.log(`[DownloadPDF] Redirecting to Cloudinary: ${pdf.filePath}`);
+      return res.redirect(pdf.filePath);
+    }
+
+    // Legacy local file
+    console.log(`[DownloadPDF] Legacy local file detected: ${pdf.filePath}`);
+    return res.status(404).json({
+      success: false,
+      message: "This PDF is from an older version and is no longer available. Please delete and re-upload.",
+      isLegacy: true
+    });
   } catch (error) {
     next(error);
   }
