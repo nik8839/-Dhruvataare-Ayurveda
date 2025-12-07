@@ -28,7 +28,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "frame-ancestors": ["'self'", "http://localhost:3000"],
+      "frame-ancestors": ["'self'", "http://localhost:3000", "https://dhruvataare-ayurveda.vercel.app", "https://dhruvataare-ayurveda-u61c.vercel.app"],
     },
   },
 }));
