@@ -7,12 +7,12 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'dhruvataare-pdfs', // Folder name in Cloudinary
-    resource_type: 'auto',
+    resource_type: 'raw', // Use raw to bypass PDF security restrictions
     access_mode: 'public', // Ensure files are public
     public_id: (req, file) => {
       // Generate unique filename
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-      return 'pdf-' + uniqueSuffix;
+      return 'pdf-' + uniqueSuffix + '.pdf'; // Raw files need extension in public_id
     },
   },
 });
