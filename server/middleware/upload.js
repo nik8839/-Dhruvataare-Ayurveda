@@ -8,6 +8,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'dhruvataare-pdfs', // Folder name in Cloudinary
     resource_type: 'auto',
+    access_mode: 'public', // Ensure files are public
     public_id: (req, file) => {
       // Generate unique filename
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
