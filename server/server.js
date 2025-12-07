@@ -20,6 +20,9 @@ connectRedis();
 
 const app = express();
 
+// Trust proxy - required for rate limiting behind load balancers (Render, Vercel, etc.)
+app.set('trust proxy', 1);
+
 // Security middleware - Configure helmet to allow iframe embedding
 app.use(helmet({
   contentSecurityPolicy: {
