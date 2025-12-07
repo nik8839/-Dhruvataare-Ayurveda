@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Analytics = require("../models/Analytics");
 const { cacheGet, cacheSet, cacheDelete } = require("../config/redis");
 const cloudinary = require("../config/cloudinary");
+const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 
@@ -203,8 +204,40 @@ const viewPDF = async (req, res, next) => {
 
     // Check if it's a Cloudinary URL (starts with http)
     if (pdf.filePath.startsWith('http')) {
-      console.log(`[ViewPDF] Redirecting to Cloudinary: ${pdf.filePath}`);
-      return res.redirect(pdf.filePath);
+      console.log(`[ViewPDF] Generating Signed URL for: ${pdf.cloudinaryId}`);
+      
+      // Generate signed URL
+      const signedUrl = cloudinary.url(pdf.cloudinaryId, {
+        resource_type: 'raw', // Must match upload type
+        sign_url: true,
+        type: 'authenticated', // Force authenticated type if needed, or just sign it
+        expires_at: Math.floor(Date.now() / 1000) + 3600 // 1 hour expiry
+      });
+
+      console.log(`[ViewPDF] Proxying Signed URL: ${signedUrl}`);
+
+      try {
+        const response = await axios({
+          method: 'get',
+          url: signedUrl,
+          responseType: 'stream'
+        });
+
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", `inline; filename="${pdf.fileName}"`);
+        response.data.pipe(res);
+        return;
+      } catch (streamError) {
+        console.error('[ViewPDF] Stream Error:', streamError.message);
+        if (streamError.response) {
+          console.error('[ViewPDF] Cloudinary Status:', streamError.response.status);
+          console.error('[ViewPDF] Cloudinary Headers:', streamError.response.headers);
+        }
+        return res.status(500).json({
+          success: false,
+          message: "Failed to stream PDF from cloud storage"
+        });
+      }
     }
 
     // Legacy local file - likely deleted
@@ -279,8 +312,18 @@ const downloadPDF = async (req, res, next) => {
 
     // Check if it's a Cloudinary URL (starts with http)
     if (pdf.filePath.startsWith('http')) {
-      console.log(`[DownloadPDF] Redirecting to Cloudinary: ${pdf.filePath}`);
-      return res.redirect(pdf.filePath);
+      console.log(`[DownloadPDF] Generating Signed URL for: ${pdf.cloudinaryId}`);
+      
+      // Generate signed URL
+      const signedUrl = cloudinary.url(pdf.cloudinaryId, {
+        resource_type: 'raw',
+        sign_url: true,
+        type: 'authenticated',
+        expires_at: Math.floor(Date.now() / 1000) + 3600
+      });
+
+      console.log(`[DownloadPDF] Proxying Signed URL: ${signedUrl}`);
+      return res.redirect(signedUrl); // For download, redirecting to signed URL is fine and faster
     }
 
     // Legacy local file
