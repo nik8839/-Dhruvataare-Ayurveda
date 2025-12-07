@@ -206,20 +206,14 @@ const viewPDF = async (req, res, next) => {
     if (pdf.filePath.startsWith('http')) {
       console.log(`[ViewPDF] Generating Signed URL for: ${pdf.cloudinaryId}`);
       
-      // Generate signed URL
-      const signedUrl = cloudinary.url(pdf.cloudinaryId, {
-        resource_type: 'raw', // Must match upload type
-        sign_url: true,
-        type: 'authenticated', // Force authenticated type if needed, or just sign it
-        expires_at: Math.floor(Date.now() / 1000) + 3600 // 1 hour expiry
-      });
-
-      console.log(`[ViewPDF] Proxying Signed URL: ${signedUrl}`);
+      // Use the public URL directly (extensionless raw files are accessible)
+      const fileUrl = pdf.filePath;
+      console.log(`[ViewPDF] Proxying URL: ${fileUrl}`);
 
       try {
         const response = await axios({
           method: 'get',
-          url: signedUrl,
+          url: fileUrl,
           responseType: 'stream'
         });
 
@@ -235,7 +229,8 @@ const viewPDF = async (req, res, next) => {
         }
         return res.status(500).json({
           success: false,
-          message: "Failed to stream PDF from cloud storage"
+          message: "Failed to stream PDF from cloud storage",
+          error: streamError.message
         });
       }
     }
@@ -314,16 +309,39 @@ const downloadPDF = async (req, res, next) => {
     if (pdf.filePath.startsWith('http')) {
       console.log(`[DownloadPDF] Generating Signed URL for: ${pdf.cloudinaryId}`);
       
-      // Generate signed URL
-      const signedUrl = cloudinary.url(pdf.cloudinaryId, {
-        resource_type: 'raw',
-        sign_url: true,
-        type: 'authenticated',
-        expires_at: Math.floor(Date.now() / 1000) + 3600
-      });
+      // Use the public URL directly
+      const fileUrl = pdf.filePath;
+      console.log(`[DownloadPDF] Proxying URL: ${fileUrl}`);
+      
+      // For download, we can redirect to the public URL
+      // Since it's raw and extensionless, browser might download it as 'download'
+      // But we can't easily force filename on redirect unless Cloudinary supports it via URL param (fl_attachment:name)
+      // But raw files don't support transformations easily.
+      // So proxying is better for download too if we want correct filename.
+      
+      // However, for now, let's just redirect and see.
+      // Actually, if we redirect, the browser sees extensionless file.
+      // It might not know it's a PDF.
+      // So PROXY is better for download too.
+      
+      try {
+        const response = await axios({
+          method: 'get',
+          url: fileUrl,
+          responseType: 'stream'
+        });
 
-      console.log(`[DownloadPDF] Proxying Signed URL: ${signedUrl}`);
-      return res.redirect(signedUrl); // For download, redirecting to signed URL is fine and faster
+        res.setHeader("Content-Type", "application/pdf");
+        res.setHeader("Content-Disposition", `attachment; filename="${pdf.fileName}"`);
+        response.data.pipe(res);
+        return;
+      } catch (streamError) {
+        console.error('[DownloadPDF] Stream Error:', streamError.message);
+        return res.status(500).json({
+          success: false,
+          message: "Failed to download PDF",
+        });
+      }
     }
 
     // Legacy local file

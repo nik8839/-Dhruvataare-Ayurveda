@@ -5,7 +5,7 @@ const path = require('path');
 async function testView() {
   try {
     // ID provided by user in previous logs
-    const pdfId = '6935e09cddbe2a1a5013fd26'; 
+    const pdfId = '6935e7b3f680653c9258ba5e'; 
     console.log(`🚀 Requesting PDF view for ID: ${pdfId}`);
 
     const response = await axios.get(`http://localhost:5000/api/pdfs/${pdfId}/view`, {
@@ -35,7 +35,15 @@ async function testView() {
 
   } catch (error) {
     if (error.response) {
-      console.error('❌ View Failed:', error.response.status, error.response.data);
+      console.error('❌ View Failed:', error.response.status);
+      // If responseType is stream, error.response.data is a stream
+      if (error.response.data && error.response.data.on) {
+        error.response.data.on('data', (chunk) => {
+          console.error('Error Body:', chunk.toString());
+        });
+      } else {
+        console.error('Error Data:', error.response.data);
+      }
     } else {
       console.error('❌ View Error:', error.message);
     }
