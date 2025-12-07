@@ -3,6 +3,7 @@ const Purchase = require("../models/Purchase");
 const User = require("../models/User");
 const Analytics = require("../models/Analytics");
 const { cacheGet, cacheSet, cacheDelete } = require("../config/redis");
+const cloudinary = require("../config/cloudinary");
 const fs = require("fs");
 const path = require("path");
 
@@ -200,28 +201,10 @@ const viewPDF = async (req, res, next) => {
       });
     }
 
-    const filePath = path.join(__dirname, "..", pdf.filePath);
-    console.log(`[ViewPDF] Attempting to view PDF: ${pdf._id}`);
-    console.log(`[ViewPDF] DB File Path: ${pdf.filePath}`);
-    console.log(`[ViewPDF] Resolved Absolute Path: ${filePath}`);
-
-    if (!fs.existsSync(filePath)) {
-      console.error(`[ViewPDF] File NOT found on disk at: ${filePath}`);
-      return res.status(404).json({
-        success: false,
-        message: "PDF file not found on server disk (Ephemeral storage issue?)",
-        debug: {
-          path: pdf.filePath,
-          resolved: filePath
-        }
-      });
-    }
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", `inline; filename="${pdf.fileName}"`);
-
-    const fileStream = fs.createReadStream(filePath);
-    fileStream.pipe(res);
+    // Redirect to Cloudinary URL
+    // Cloudinary URLs are public and can be viewed directly
+    console.log(`[ViewPDF] Redirecting to Cloudinary: ${pdf.filePath}`);
+    return res.redirect(pdf.filePath);
   } catch (error) {
     next(error);
   }
@@ -266,15 +249,6 @@ const downloadPDF = async (req, res, next) => {
       }
     }
 
-    const filePath = path.join(__dirname, "..", pdf.filePath);
-
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({
-        success: false,
-        message: "PDF file not found",
-      });
-    }
-
     // Increment download count
     pdf.downloadCount += 1;
     await pdf.save();
@@ -294,14 +268,11 @@ const downloadPDF = async (req, res, next) => {
       }
     });
 
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${pdf.fileName}"`
-    );
-
-    const fileStream = fs.createReadStream(filePath);
-    fileStream.pipe(res);
+    // Redirect to Cloudinary URL
+    // For download, we can append fl_attachment to Cloudinary URL if needed, 
+    // but simple redirect usually works for browsers to handle "Save As" if it's a PDF
+    console.log(`[DownloadPDF] Redirecting to Cloudinary: ${pdf.filePath}`);
+    return res.redirect(pdf.filePath);
   } catch (error) {
     next(error);
   }
@@ -326,8 +297,9 @@ const createPDF = async (req, res, next) => {
 
     const pdfData = {
       ...req.body,
-      filePath: req.file.path,
-      fileName: req.file.filename,
+      filePath: req.file.path, // Cloudinary URL
+      cloudinaryId: req.file.filename, // Cloudinary Public ID
+      fileName: req.file.originalname, // Original filename
       fileSize: req.file.size,
     };
 
@@ -401,10 +373,15 @@ const deletePDF = async (req, res, next) => {
       });
     }
 
-    // Delete file
-    const filePath = path.join(__dirname, "..", pdf.filePath);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    // Delete file from Cloudinary
+    if (pdf.cloudinaryId) {
+      await cloudinary.uploader.destroy(pdf.cloudinaryId);
+    } else {
+      // Fallback for old local files (optional, but good for cleanup if they existed)
+      const filePath = path.join(__dirname, "..", pdf.filePath);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
     }
 
     await pdf.deleteOne();

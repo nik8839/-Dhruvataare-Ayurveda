@@ -39,6 +39,10 @@ const pdfSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    cloudinaryId: {
+      type: String,
+      required: true,
+    },
     fileName: {
       type: String,
       required: true,
