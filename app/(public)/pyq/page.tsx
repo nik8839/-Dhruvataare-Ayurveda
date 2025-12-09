@@ -170,7 +170,13 @@ export default function PYQPage() {
             <p className="text-cyan-100 text-lg mb-6 max-w-2xl mx-auto">
               Connect with fellow students, share resources, and stay updated with the latest materials
             </p>
-            <SocialLinks variant="section" className="justify-center" />
+            <Link
+              href="/community"
+              className="inline-flex items-center space-x-2 bg-white text-teal-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-cyan-50 transition-all transform hover:scale-105 shadow-lg"
+            >
+              <span>Join Now</span>
+              <span className="text-xl">→</span>
+            </Link>
           </div>
         </div>
       </div>

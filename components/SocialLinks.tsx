@@ -19,7 +19,7 @@ export const socialConfig = [
     url: process.env.NEXT_PUBLIC_YOUTUBE_URL || 'https://youtube.com/@dhruvataareayurveda?si=TnjCzpB_-wZH-sMw',
     color: 'hover:text-red-500',
     bg: 'from-red-500 to-red-600',
-    hoverBg: 'hover:bg-red-50', 
+    hoverBg: 'hover:bg-red-50',
   },
   {
     id: 'whatsappChannel',
@@ -43,7 +43,9 @@ export const socialConfig = [
     id: 'gmail',
     label: 'Gmail',
     icon: FiMail,
-    url: process.env.NEXT_PUBLIC_CONTACT_EMAIL ? `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}` : 'mailto:contact@edutech.com',
+    url: process.env.NEXT_PUBLIC_CONTACT_EMAIL
+      ? `https://mail.google.com/mail/?view=cm&fs=1&to=${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`
+      : 'https://mail.google.com/mail/?view=cm&fs=1&to=contact@edutech.com',
     color: 'hover:text-red-600',
     bg: 'from-red-500 to-orange-500',
     hoverBg: 'hover:bg-orange-50',

@@ -42,6 +42,7 @@ export default function PYQDialog({ onClose }: PYQDialogProps) {
   const [showPaperDialog, setShowPaperDialog] = useState(false)
   const [showPdfViewer, setShowPdfViewer] = useState(false)
   const [pdfLoading, setPdfLoading] = useState(false)
+  const [showSocials, setShowSocials] = useState(false)
 
   useEffect(() => {
     loadTaxonomy()
@@ -190,7 +191,17 @@ export default function PYQDialog({ onClose }: PYQDialogProps) {
           
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <h3 className="text-xl font-bold text-gray-800 mb-4">Join Our Community</h3>
-            <SocialLinks variant="section" className="justify-center" />
+            {!showSocials ? (
+              <button
+                onClick={() => setShowSocials(true)}
+                className="flex items-center justify-center space-x-2 w-full medical-gradient-teal hover:shadow-medical-lg rounded-xl p-4 text-white font-semibold transition-all duration-300 transform hover:scale-105 shadow-medical"
+              >
+                <span>Join Our Community</span>
+                <FiBell className="w-5 h-5" />
+              </button>
+            ) : (
+              <SocialLinks variant="section" className="justify-center animate-fadeIn" />
+            )}
           </div>
         </div>
       </div>

@@ -119,7 +119,13 @@ export default function LatestUpdates() {
       <div className="mt-10 relative overflow-hidden rounded-2xl shadow-medical hover:shadow-medical-lg transform hover:scale-[1.02] transition-all duration-300">
         <div className="absolute inset-0 medical-gradient-mixed opacity-90"></div>
         <div className="relative p-6 text-center">
-          <SocialLinks variant="section" className="justify-center" />
+          <Link
+            href="/community"
+            className="flex items-center justify-center space-x-3 text-white font-bold text-lg group"
+          >
+            <span className="group-hover:translate-x-1 transition-transform">Join Our Community</span>
+            <FiBell className="w-6 h-6 transform group-hover:scale-125 group-hover:rotate-12 transition-all" />
+          </Link>
         </div>
       </div>
     </section>
