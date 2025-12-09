@@ -5,7 +5,7 @@ import { FiArrowLeft, FiInstagram, FiMail, FiMessageCircle, FiBell } from 'react
 
 export default function ContactPage() {
   const contactLinks = {
-    instagram: 'https://instagram.com/edutech',
+    instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/dhruvataare01?igsh=c285OTBtM3Bmc2I=',
     gmail: 'mailto:contact@edutech.com',
     whatsapp: 'https://wa.me/1234567890',
   }
