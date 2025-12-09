@@ -7,7 +7,7 @@ export default function CommunityPage() {
   const socialLinks = {
     youtube: process.env.NEXT_PUBLIC_YOUTUBE_URL || 'https://youtube.com/@dhruvataareayurveda?si=TnjCzpB_-wZH-sMw',
     telegram: process.env.NEXT_PUBLIC_TELEGRAM_LINK || 'https://t.me/dhruvataare01',
-    whatsappChannel: 'https://whatsapp.com/channel/0029Vb2RtQ8EAKWN2TyXTO0q',
+    whatsappChannel: process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL || 'https://whatsapp.com/channel/0029Vb2RtQ8EAKWN2TyXTO0q',
     whatsapp1stJunior: process.env.NEXT_PUBLIC_WHATSAPP_1ST_JUNIOR || 'https://chat.whatsapp.com/LEnNEbolkVbKEtLxLHqD89?mode=wwt',
     whatsapp1stSenior: process.env.NEXT_PUBLIC_WHATSAPP_1ST_SENIOR || 'https://chat.whatsapp.com/GDvD08rCgInI7nTljagvpy?mode=wwt',
     whatsapp2ndJunior: process.env.NEXT_PUBLIC_WHATSAPP_2ND_JUNIOR || 'https://chat.whatsapp.com/DqdLM1xoOjSH985v6AcVeR?mode=wwt',
