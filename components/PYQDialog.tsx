@@ -5,6 +5,7 @@ import { pdfAPI } from '@/lib/api'
 import { FiFileText, FiX, FiBell } from 'react-icons/fi'
 import Link from 'next/link'
 import { useToast } from '@/contexts/ToastContext'
+import SocialLinks from './SocialLinks'
 
 interface PDFItem {
   _id: string
@@ -187,14 +188,9 @@ export default function PYQDialog({ onClose }: PYQDialogProps) {
             </div>
           )}
           
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <Link
-              href="/community"
-              className="flex items-center justify-center space-x-2 w-full medical-gradient-teal hover:shadow-medical-lg rounded-xl p-4 text-white font-semibold transition-all duration-300 transform hover:scale-105 shadow-medical"
-            >
-              <span>Join Our Community</span>
-              <FiBell className="w-5 h-5" />
-            </Link>
+          <div className="mt-8 pt-6 border-t border-gray-200 text-center">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Join Our Community</h3>
+            <SocialLinks variant="section" className="justify-center" />
           </div>
         </div>
       </div>

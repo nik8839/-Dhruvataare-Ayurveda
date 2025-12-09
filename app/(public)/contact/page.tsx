@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { FiArrowLeft, FiInstagram, FiMail, FiMessageCircle, FiBell } from 'react-icons/fi'
+import { FiArrowLeft, FiBell } from 'react-icons/fi'
+import SocialLinks from '@/components/SocialLinks'
 
 export default function ContactPage() {
   const contactLinks = {
@@ -28,53 +29,7 @@ export default function ContactPage() {
           Get in touch with us through any of these platforms
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Instagram */}
-          <a
-            href={contactLinks.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white text-center"
-          >
-            <div className="flex flex-col items-center">
-              <FiInstagram className="w-12 h-12 mb-4" />
-              <h2 className="text-2xl font-bold mb-2">Instagram</h2>
-              <p className="text-pink-100 text-sm">
-                Follow us for updates
-              </p>
-            </div>
-          </a>
-
-          {/* Gmail */}
-          <a
-            href={contactLinks.gmail}
-            className="bg-gradient-to-br from-red-500 to-red-700 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white text-center"
-          >
-            <div className="flex flex-col items-center">
-              <FiMail className="w-12 h-12 mb-4" />
-              <h2 className="text-2xl font-bold mb-2">Gmail</h2>
-              <p className="text-red-100 text-sm">
-                Send us an email
-              </p>
-            </div>
-          </a>
-
-          {/* WhatsApp */}
-          <a
-            href={contactLinks.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-gradient-to-br from-green-500 to-green-700 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white text-center"
-          >
-            <div className="flex flex-col items-center">
-              <FiMessageCircle className="w-12 h-12 mb-4" />
-              <h2 className="text-2xl font-bold mb-2">WhatsApp</h2>
-              <p className="text-green-100 text-sm">
-                Chat with us
-              </p>
-            </div>
-          </a>
-        </div>
+        <SocialLinks variant="grid" />
 
         <div className="mt-12 bg-blue-50 rounded-lg p-6 text-center">
           <p className="text-gray-700 mb-4">

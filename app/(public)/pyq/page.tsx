@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FiArrowLeft, FiBell, FiFileText } from 'react-icons/fi'
 import { pdfAPI } from '@/lib/api'
+import SocialLinks from '@/components/SocialLinks'
 
 export default function PYQPage() {
   const [taxonomy, setTaxonomy] = useState<any>(null)
@@ -169,13 +170,7 @@ export default function PYQPage() {
             <p className="text-cyan-100 text-lg mb-6 max-w-2xl mx-auto">
               Connect with fellow students, share resources, and stay updated with the latest materials
             </p>
-            <Link
-              href="/community"
-              className="inline-flex items-center space-x-2 bg-white text-teal-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-cyan-50 transition-all transform hover:scale-105 shadow-lg"
-            >
-              <span>Join Now</span>
-              <span className="text-xl">→</span>
-            </Link>
+            <SocialLinks variant="section" className="justify-center" />
           </div>
         </div>
       </div>

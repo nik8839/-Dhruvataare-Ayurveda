@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { FiInstagram, FiYoutube, FiMessageCircle, FiBell } from 'react-icons/fi'
 
+import SocialLinks from './SocialLinks'
+
 export default function Footer() {
   const socialLinks = {
     instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/dhruvataare01?igsh=c285OTBtM3Bmc2I=',
@@ -10,6 +12,8 @@ export default function Footer() {
     whatsappChannel: process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL || 'https://whatsapp.com/channel/0029Vb2RtQ8EAKWN2TyXTO0q',
     telegram: process.env.NEXT_PUBLIC_TELEGRAM_LINK || 'https://t.me/dhruvataare01',
   }
+  
+  console.log('Footer Social Links:', socialLinks);
 
   return (
     <footer className="relative mt-20 overflow-hidden">
@@ -84,44 +88,7 @@ export default function Footer() {
             <p className="text-gray-300 mb-6 text-base">
               Connect with us and fellow students on various platforms
             </p>
-            <div className="space-y-4">
-              <a
-                href={socialLinks.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-3 text-gray-300 hover:text-pink-400 transition-colors text-base group"
-              >
-                <FiInstagram className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span>Instagram</span>
-              </a>
-              <a
-                href={socialLinks.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-3 text-gray-300 hover:text-red-400 transition-colors text-base group"
-              >
-                <FiYoutube className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span>YouTube</span>
-              </a>
-              <a
-                href={socialLinks.whatsappChannel}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-3 text-gray-300 hover:text-green-400 transition-colors text-base group"
-              >
-                <FiMessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span>WhatsApp Channel</span>
-              </a>
-              <a
-                href={socialLinks.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-3 text-gray-300 hover:text-blue-400 transition-colors text-base group"
-              >
-                <FiMessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span>Telegram</span>
-              </a>
-            </div>
+            <SocialLinks variant="footer" />
             <div className="mt-8">
               <Link
                 href="/community"

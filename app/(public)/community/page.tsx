@@ -5,6 +5,7 @@ import { FiArrowLeft, FiInstagram, FiYoutube, FiMessageCircle } from 'react-icon
 
 export default function CommunityPage() {
   const socialLinks = {
+    instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/dhruvataare01?igsh=c285OTBtM3Bmc2I=',
     youtube: process.env.NEXT_PUBLIC_YOUTUBE_URL || 'https://youtube.com/@dhruvataareayurveda?si=TnjCzpB_-wZH-sMw',
     telegram: process.env.NEXT_PUBLIC_TELEGRAM_LINK || 'https://t.me/dhruvataare01',
     whatsappChannel: process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL || 'https://whatsapp.com/channel/0029Vb2RtQ8EAKWN2TyXTO0q',
@@ -33,6 +34,22 @@ export default function CommunityPage() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Instagram */}
+          <a
+            href={socialLinks.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg p-8 hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-white"
+          >
+            <div className="flex items-center space-x-4 mb-4">
+              <FiInstagram className="w-10 h-10" />
+              <h2 className="text-2xl font-bold">Instagram</h2>
+            </div>
+            <p className="text-pink-100">
+              Follow us for daily updates and medical content
+            </p>
+          </a>
+
           {/* YouTube */}
           <a
             href={socialLinks.youtube}
